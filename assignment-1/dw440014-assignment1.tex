@@ -1,0 +1,223 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[a4paper, margin = 2 cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{wrapfig}
+\usepackage{hyperref}
+\usepackage{mathtools}
+
+\title{Algorytmika praca domowa 1}
+\author{Dominik Wawszczak}
+\date{2024-03-09}
+
+\begin{document}
+	\setlength{\parindent}{0 cm}
+	
+	Dominik Wawszczak \hfill Algorytmika
+	
+	numer indeksu: 440014 \hfill praca domowa 1
+	
+	numer grupy: 1
+	
+	\bigskip
+	\hrule
+	\bigskip
+	
+	\textbf{Zadanie 1}
+	
+	\medskip
+	
+	Stwórzmy nowy nieskierowany graf \(G'\) taki, że
+	\[ V(G') \ \coloneqq \ V(G) \ \cup \ \{t\} \quad \text{oraz} \quad E(G') \
+	\coloneqq \ E(G) \ \cup \ \{xt \ : \ x \in V(G)\} \text{.} \]
+	Niech funkcja kosztu \(c : V(G') \to \mathbb{Z}_{\geqslant 0}\) będzie
+	następująca:
+	\[ c(xy) \ \coloneqq \ \begin{cases}
+		g(xy) \text{,} & \text{jeżeli} \ xy \in E(G) \text{,} \\
+		f(x) \text{,} & \text{gdy} \ y = t \text{,} \\
+		f(y) \text{,} & \text{dla} \ x = t \text{.}
+	\end{cases} \]
+	
+	\medskip
+	
+	\underline{Lemat 1} Każdy zbiór \(X \subseteq V(G)\) zawierający \(v_{0}\)
+	odpowiada pewnemu przekrojowi sieci przepływowej \((G', c, v_{0}, t)\), w
+	taki sposób, że \(\text{koszt}(X)\) jest równy przepustowości tego
+	przekroju.
+	
+	\medskip
+	
+	\underline{Dowód lematu 1} Dla konkretnego zbioru \(X \subseteq V(G)\)
+	zawierającego \(v_{0}\) weźmiemy \(S = X\) i \(T = (V(G) \setminus X)
+	\cup \{t\}\). Wtedy oczywiście \(V(G') = S \cup T\) oraz \(S \cap T =
+	\emptyset\). Przepustowością tego przekroju jest wówczas
+	\[ \sum\limits_{x \in S \ \wedge \ y \in T} c(xy) \ = \ \sum\limits_{x \in
+	X} c(xt) + \sum\limits_{x \in X \ \wedge \ y \in V(G) \setminus X} c(xy) \ =
+	\ \sum\limits_{x \in X} f(x) + \sum\limits_{x \in X \ \wedge \ y \in V(G)
+	\setminus x} g(xy) \text{,} \]
+	czyli \(\text{koszt}(X)\), co kończy dowód lematu.
+	
+	\medskip
+	
+	Dla dowolnego przekroju \((S, T)\) sieci \((G', c, v_{0}, t)\), biorąc \(X =
+	S\) znowu otrzymamy, że \(\text{koszt}(X)\) jest równy przepustowości tego
+	przekroju, zatem również każdemu przekrojowi odpowiada podzbiór wierzchołków
+	grafu \(G\) zawierający \(v_{0}\).
+	
+	\medskip
+	
+	Z powyższego wynika, że minimalny możliwy koszt zbioru \(X \subseteq V(G)\)
+	zawierającego \(v_{0}\) jest równy przepustowości minimalnego przekroju
+	sieci \((G', c, v_{0}, t)\), czyli wartości maksymalnego przepływu tej
+	sieci. Maksymalny przepływ możemy znaleźć algorytmem Dinica mającym
+	złożoność czasową \(O \left( |V(G')|^{2} |E(G')| \right)\).
+	
+	\medskip
+	
+	Żeby odzyskać zbiór \(X\) wystarczy podzielić zbiór wierzchołków grafu
+	\(G'\) na dwa zbiory: \(S\) -- wierzchołki do których istnieje ścieżka
+	z \(v_{0}\) w sieci rezydualnej z maksymalnym przepływem oraz \(T\) --
+	pozostałe wierzchołki. Można to zrealizować zwykłym algorytmem DFS w czasie
+	\(O \left( |V(G')| + |E(G')| \right)\). Wówczas \(S\) jest szukanym zbiorem.
+	
+	\medskip
+	
+	Ponieważ zachodzi \(|V(G')| = |V(G)| + 1\) oraz \(|E(G')| = |E(G)| +
+	|V(G)|\), to całkowita złożoność naszego algorytmu to \(O \left( |V(G)|^{2}
+	(|V(G)| + |E(G)|) \right)\).
+	
+	\newpage
+	
+	\textbf{Zadanie 2}
+	
+	\medskip
+	
+	\underline{Lemat 1} Istnieje \(k\) parami rozłącznych krawędziowo ścieżek
+	prostych z \(s\) do \(t\).
+	
+	\medskip
+	
+	\underline{Dowód lematu 1} Rozpatrzmy sieć przepływową \((G, \lambda xy . 1,
+	s, t)\). Zauważmy, że każdemu cięciu \(Z \subseteq E(G)\) odpowiada pewien
+	przekrój \((S, T)\) tej sieci, ponieważ możemy wziąć
+	\[ S \ = \ \{ v \ : \ \text{istnieje ścieżka z} \ s \ \text{do} \ v \
+	\text{niezawierająca krawędzi z} \ Z\} \quad \text{oraz} \quad T \ = \ V(G)
+	\setminus S \text{.} \]
+	Jeśli dodatkowo cięcie \(Z\) jest minimalne, czyli \(|Z| = k\), to każda
+	krawędź \(xy \in Z\) spełnia warunek \(x \in S \ \wedge \ y \in T\), gdyż
+	w przeciwnym razie mamy jeden z dwóch przypadków:
+	\begin{itemize}
+		\item \(x \in T\), wówczas krawędź \(xy\) jest redundantna i istnieje
+		mniejsze cięcie \(Z \setminus \{xy\}\), ponieważ i tak nie da się dojść
+		z \(s\) do \(x\);
+		\item \(y \in S\), wtedy podobnie krawędź \(xy\) nic nie zmienia i
+		istnieje mniejsze cięcie \(Z \setminus \{xy\}\), albowiem krawędź ta nie
+		nakłada żadnych ograniczeń, jako że i tak istnieje inna ścieżka z \(s\)
+		do \(y\).
+	\end{itemize}
+	W analogiczny sposób każdemu przekrojowi odpowiada pewne cięcie, z czego
+	wynika, że przepustowość minimalnego przekroju wynosi \(k\), skąd wartość
+	maksymalnego przepływu również wynosi \(k\). Na wykładzie było dowodzone, że
+	przepływ ten rozkłada się na ścieżki i cykle, przy czym cykle możemy po
+	prostu zignorować, a o ścieżkach założyć, że na każdej z nich wartość
+	przepływu jest całkowita, czyli wynosi \(1\), ponieważ algorytm
+	Forda-Fulkersona jest poprawny. Wnioskujemy stąd, że ścieżki te są parami
+	rozłączne krawędziowo, gdyż w przeciwnym wypadku istniałaby krawędź, dla
+	której funkcja przepływu przekraczałaby funkcję przepustowości. Otrzymaliśmy
+	rodzinę \(k\) parami rozłącznych krawędziowo ścieżek prostych z \(s\) do
+	\(t\): \(P = \{(s = v_{1, 1}, v_{1, 2}, \ldots, v_{1, l_{1}} = t), (s =
+	v_{2, 1}, v_{2, 2}, \ldots, v_{2, l_{2}} = t), \ldots, (s = v_{k, 1}, v_{k,
+	2}, \ldots, v_{k, l_{k}} = t)\}\), co kończy dowód lematu.
+	
+	\medskip
+	
+	\underline{Lemat 2} Każde \(k\)-cięcie zawiera po dokładnie jednej krawędzi
+	na każdej ścieżce z \(P\) i nie zawiera żadnych innych krawędzi.
+	
+	\medskip
+	
+	\underline{Dowód lematu 2} Każde \(k\)-cięcie musi zawierać po co najmniej
+	jednej krawędzi na każdej ścieżce z \(P\), ponieważ w przeciwnym wypadku nie
+	byłoby cięciem. Ponadto, jeśli zawiera dwie krawędzie z którejś ścieżki lub
+	pewną krawędź nienależącą do żadnej ze ścieżek, to ma rozmiar większy niż
+	\(k\), czyli sprzeczność, co kończy dowód lematu.
+	
+	\medskip
+	
+	Niech \(A \subseteq V(G)\) będzie zbiorem zawierającym takie wierzchołki
+	\(v\), że w dowolnym \(k\)-cięciu zachodzi \(v \in S\), gdzie \((S, T)\)
+	jest odpowiadającym temu cięciu przekrojem. Podobnie definiujemy \(B\), z
+	tym że zbiór ten zawiera wierzchołki, które dla każdego \(k\)-cięcia są w
+	\(T\).
+	
+	\medskip
+	
+	\underline{Lemat 3} Dla każdego \(i = 1, 2, \ldots, k\) istnieje \(p_{i} \in
+	\{ 1, 2, \ldots, l_{i} - 1\}\) takie, że \(v_{i, 1}, v_{i, 2}, \ldots, v_{i,
+	p_{i}} \in A\) oraz \(v_{i, p_{i} + 1}, v_{i, p_{i} + 2}, \ldots, v_{i,
+	l_{i}} \notin A\).
+	
+	\medskip
+	
+	\underline{Dowód lematu 3} Nie ulega wątpliwości, że \(s = v_{i, 1} \in A\).
+	Przypuśćmy nie wprost, że istnieją \(a, b \in \{1, 2, \ldots, l_{i} - 1\}\)
+	takie, że \(a < b\) oraz \(v_{i, a} \notin A \ \wedge \ v_{i, b} \in A\).
+	Weźmy \(k\)-cięcie \(Z\), dla którego \(v_{i, a} \in T\). Z lematu \(2\)
+	wnioskujemy, że dla pewnego \(c \in \{1, 2, \ldots a - 1\}\) zachodzi
+	\(v_{i, c} v_{i, c + 1} \in Z\), przy czym jest to jedyna krawędź na tej
+	ścieżce należąca do \(Z\). Oczywiście \(v_{i, b} \in S\), zatem istnieje
+	pewna ścieżka z \(s\) do \(v_{i, b}\) niezawierająca krawędzi z \(Z\).
+	Możemy tę ścieżkę przedłużyć o \((v_{i, b}, v_{i, b + 1}, \ldots, v_{i,
+	l_{i}} = t)\) uzyskując ścieżkę z \(s\) do \(t\) niezawierającą krawędzi z
+	\(Z\), czyli sprzeczność, co kończy dowód lematu.
+	
+	\medskip
+	
+	\underline{Lemat 4} Dla każdego \(i = 1, 2, \ldots, k\) istnieje \(q_{i} \in
+	\{ 2, 3 \ldots, l_{i}\}\) takie, że \(v_{i, q_{i}}, v_{i, q_{i} + 1},
+	\ldots, v_{i, l_{i}} \in B\) oraz \(v_{i, 1}, v_{i, 2}, \ldots, v_{i, q_{i}
+	- 1} \notin B\).
+	
+	\medskip
+	
+	\underline{Dowód lematu 4} Analogiczny jak lematu 3.
+	
+	\medskip
+	
+	Niech
+	\[ Z_{A} \ = \ \{v_{i, p_{i}} v_{i, p_{i} + 1} \ : \ i = 1, 2, \ldots, k\}
+	\quad \text{oraz} \quad Z_{B} \ = \ \{v_{i, q_{i - 1}} v_{i, q_{i}} \ : \ i
+	= 1, 2, \ldots, k\} \text{.} \]
+	
+	\medskip
+	
+	\underline{Lemat 5} \(Z_{A}\) i \(Z_{B}\) są \(k\)-cięciami.
+	
+	\medskip
+	
+	\underline{Dowód lematu 5} Przypuśćmy nie wprost, że istnieje ścieżka \((s =
+	v_{1}, v_{2}, \ldots, v_{l} = t)\), taka że żadna z krawędzi \(v_{j} v_{j +
+	1}\) nie należy do \(Z_{A}\), dla \(j = 1, \ldots, l - 1\). Weźmy największe
+	takie \(p \in \{1, 2, \ldots, l - 1\}\), że \(v_{1}, v_{2}, \ldots, v_{p}
+	\in A\). Wtedy z lematu 3 krawędź \(v_{p} v_{p + 1}\) nie leży na żadnej
+	ścieżce z \(P\), zatem z lematu 2 nie jest w żadnym \(k\)-cięciu, skąd
+	wnioskujemy, że \(v_{p + 1} \in A\), ponieważ \(v_{p} \in A\), czyli
+	sprzeczność, toteż \(Z_{A}\) jest \(k\)-cięciem. Analogicznie dowodzimy, że
+	\(Z_{B}\) również jest \(k\)-cięciem, co kończy dowód lematu.
+	
+	\medskip
+	
+	Z założeń \(Z_{A} \cap Z_{B} \neq \emptyset\), co oznacza, że istnieje
+	\(i\), dla którego \(p_{i} + 1 = q_{i}\). Krawędź \(v_{i, p_{i}} v_{i,
+	q_{i}}\) jest więc szukaną krawędzią, ponieważ gdyby istniało \(k\)-cięcie
+	\(Z\) takie, że \(v_{i, p_{i}} v_{i, q_{i}} \notin Z\), to spełnione by było
+	\(v_{i, q_{i}} \in S\), gdyż \(v_{i, p_{i}} \in A\), co przeczy warunkowi
+	\(v_{i, q_{i}} \in B\). Otrzymana sprzeczność kończy rozwiązanie zadania.
+\end{document}
