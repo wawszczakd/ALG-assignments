@@ -37,7 +37,7 @@
 	Rozpocznijmy od udowodnienia, że dany w zadaniu problem jest w klasie NP.
 	Istotnie, weryfikację czy konkretna funkcja \(f\) spełnia wszystkie krotki
 	z \(\mathcal{A}\) można zrealizować w czasie wielomianowym, zwyczajnie
-	sprawdzając dla każdej krotki czy spełniona jest co najmniej jedna z
+	sprawdzając dla każdej krotki, czy spełniona jest co najmniej jedna z
 	odpowiednich nierówności.
 	
 	\medskip
@@ -62,7 +62,7 @@
 	
 	\medskip
 	
-	Kolejnem krokiem będzie zagwarantowanie, że dla każdego \(i \in \{1, \ldots,
+	Kolejnym krokiem będzie zagwarantowanie, że dla każdego \(i \in \{1, \ldots,
 	m\}\) zachodzi dokładnie jeden z dwóch przypadków: \(f(2i) < f(2m + 1) <
 	f(2i - 1)\), czyli \(x_{i} = \top\), albo \(f(2i - 1) < f(2m + 1) < f(2i)\),
 	co oznacza, że \(x_{i} = \bot\). Niech \(a, b, c \in \{1, \ldots, n\}\) będą
@@ -75,26 +75,18 @@
 	
 	\medskip
 	
-	Następnie zagwarantujemy, że jeśli dla pewnych \(a\), \(b\) zachodzi \(f(2m
-	+ 1) < f(a) < f(b)\) lub \(f(a) < f(b) < f(2m + 1)\), to \(a < b\). Dla
-	każdych \(a, b \in \{1, \ldots, 2m\}\) takich, że \(a < b\), możemy, tak jak
-	w poprzednim akapicie, zabronić kolejności \(f(2m + 1) < f(b) < f(a)\) oraz
-	\(f(b) < f(a) < f(2m + 1)\).
-	
-	\medskip
-	
 	Bez straty ogólności możemy założyć, że żadna klauzula nie zawiera
 	jednocześnie zmiennej i jej zaprzeczenia, gdyż takie klauzule są zawsze
-	spełnione. klauzulę z instancji problemu 3-CNF-SAT będziemy rozpatrywać jako
-	zbiór (powtórzenia możemy oczywiście zignorować) liczb odpowiadających
-	zawartym w niej literałom, zgodnie z numeracją opisaną w drugim akapicie.
+	spełnione. Klauzulę z instancji problemu 3-CNF-SAT będziemy rozpatrywać jako
+	zbiór liczb odpowiadających zawartym w niej literałom (powtórzenia możemy
+	oczywiście zignorować), zgodnie z numeracją opisaną w drugim akapicie.
 	Przykładowo, klauzulę \((x_{4} \vee \neg x_{6} \vee x_{9})\) będziemy
-	rozumieć jako multizbiór \(\{7, 12, 17\}\), a klauzulę \((\neg x_{2} \vee
-	x_{5} \vee \neg x_{2})\) jako \(\{4, 9\}\). Dla każdego zbioru
+	rozumieć jako multizbiór \(\{7, 12, 17\}\), a klauzulę \((x_{5} \vee \neg
+	x_{2} \vee \neg x_{2})\) jako \(\{4, 9\}\). Dla każdego zbioru
 	jednoelementowego \(\{a\}\) dodamy do \(\mathcal{A}\) krotkę \((2m + 1, a,
 	2m + 1, a)\). Dla każdego zbioru dwuelementowego \(\{a, b\}\) dodamy do
 	\(\mathcal{A}\) krotkę \((2m + 1, a, 2m + 1, b)\). Wreszcie dla każdego
-	zbioru trzyelementowego \(\{a, b, c\}\) dodamy do \(\mathcal{A}\) krotkę
+	zbioru trójelementowego \(\{a, b, c\}\) dodamy do \(\mathcal{A}\) krotkę
 	\((2m + 1, a, b \oplus 1, c)\), zakładając bez straty ogólności \(a < b <
 	c\), gdzie \(\oplus\) jest operatorem bitowym xor.
 	
@@ -104,60 +96,49 @@
 	\begin{align*}
 		&\text{istnieje funkcja} \ f : \{1, \ldots, n\} \to \mathbb{Q} \
 		\text{spełniająca wszystkie krotki z} \ \mathcal{A} \quad \iff \\
-		&\text{formuła z instacji problemu 3-CNF-SAT jest spełnialna.}
-	\end{align*}\[ f(b \oplus 1) = \left\lfloor \frac{b + 1}{2} \right\rfloor - m - 1 <
-		\left\lfloor \frac{c + 1}{2} \right\rfloor - m - 1 = f(c) \text{,} \]
+		&\text{formuła z instancji problemu 3-CNF-SAT jest spełnialna.}
+	\end{align*}
 	
 	\medskip
 	
 	Zaczniemy od wykazania implikacji ,,w lewo''. Weźmy więc wartościowanie
-	spełniające formułę i dla każdego \(i = 1, \ldots, m\) przypiszmy \(f(2i -
-	1) = i = f(2i) + m + 1\), jeżeli \(x_{i} = \top\), albo \(f(2i - 1) = i - m
-	- 1 = f(2i) - m - 1\), w przeciwny wypadku. \(f(2m + 1)\) zdefiniujemy jako
-	\(0\). Łatwo zauważyć, że funkcja \(f\) spełnia wszystkie krotki z akapitów
-	\(3\), \(4\) i \(5\). Dla klauzul, którym odpowiadają zbiory jedno lub
-	elementowe również nietrudno zauważyć, że funkcja \(f\) spełnia
+	spełniające formułę, po czym dla każdego \(i = 1, \ldots, m\) przypiszmy
+	\(f(2i - 1) = i = f(2i) + m + 1\), jeżeli \(x_{i} = \top\), albo \(f(2i - 1)
+	= i - m - 1 = f(2i) - m - 1\), w przeciwnym wypadku. \(f(2m + 1)\)
+	zdefiniujemy jako \(0\). Łatwo zauważyć, że funkcja \(f\) spełnia wszystkie
+	krotki z akapitów \(3\) i \(4\). Dla klauzul, którym odpowiadają zbiory
+	jedno lub dwuelementowe również nietrudno zauważyć, że funkcja \(f\) spełnia
 	odpowiadające im krotki. Pozostają klauzule, którym odpowiadają zbiory
-	trzyelementowe \(\{a, b, c\}\), gdzie mamy cztery przypadki:
-	\begin{enumerate}
-		\item \(f(a) > 0\)
-		
-		Wtedy oczywiście \(f(a) > 0 = f(2m + 1)\), czyli krotka jest spełniona.
-		
-		\item \(f(b) > 0 \wedge f(c) > 0\)
-		
-		Wówczas \(f(b \oplus 1) = f(b) - m - 1 < 0 < f(c)\), zatem krotka jest
-		spełniona.
-		
-		\item \(f(b) > 0 \wedge f(c) < 0\)
-		
-		W tym przypadku zachodzi
-		\[ f(b \oplus 1) \ = \ \left\lfloor \frac{b + 1}{2} \right\rfloor - m -
-		1 \ < \ \left\lfloor \frac{c + 1}{2} \right\rfloor - m - 1 \ = \ f(c)
-		\text{,} \]
-		toteż krotka także jest spełniona.
-		
-		\item \(f(b) < 0 \wedge f(c) > 0\)
-		
-		Mamy
-		\[ f(b \oplus 1) \ = \ \left\lfloor \frac{b + 1}{2} \right\rfloor \ < \
-		\left\lfloor \frac{c + 1}{2} \right\rfloor \ = \ f(c) \text{,} \]
-		więc krotka również jest spełniona.
-	\end{enumerate}
+	trójelementowe \(\{a, b, c\}\). Przypuśćmy nie wprost, że \(0 > f(a) \
+	\wedge \ f(b \oplus 1) > f(c)\). Skoro \(b < c\) i klauzula ta nie zawiera
+	jednocześnie zmiennej i jej zaprzeczenia, to \(b \oplus 1 < c\). Ponieważ
+	\(f(a) < 0\), to odpowiadający jej literał jest fałszem, zatem \(f(b) > 0\)
+	lub \(f(c) > 0\). Jeżeli \(f(b) > 0\), mamy:
+	\[ f(b \oplus 1) \ = \ \left\lfloor \frac{b + 1}{2} \right\rfloor - m - 1 \
+	< \ \left\lfloor \frac{c + 1}{2} \right\rfloor - m - 1 \ \leqslant \ f(c)
+	\text{,} \]
+	czyli sprzeczność. W drugim przypadku natomiast zachodzi:
+	\[ f(c) \ = \ \left\lfloor \frac{c + 1}{2} \right\rfloor \ > \ \left\lfloor
+	\frac{b + 1}{2} \right\rfloor \ \geqslant \ f(b \oplus 1) \text{,} \]
+	co również daje sprzeczność.
 	
 	\medskip
 	
 	Na koniec pozostaje wykazać implikację ,,w prawo''. Niech więc \(f\) będzie
 	funkcją spełniającą każdą klauzulę z \(\mathcal{A}\). Bez straty ogólności
 	możemy założyć, że \(f(2m + 1) = 0\), po prostu odejmując stałą \(f(2m +
-	1)\) od każdej wartościfunkcji, co nie wpłynie na żadną nierówność. Zgodnie
-	z tym co opisano w drugim akapicie, przyjmiemy \(x_{i} = \top\), jeśli
+	1)\) od każdej wartości funkcji, co nie wpłynie na żadną nierówność. Zgodnie
+	z tym, co opisano w drugim akapicie, przyjmiemy \(x_{i} = \top\), jeśli
 	\(f(2i - 1) > 0\), albo \(x_{i} = \bot\), gdy \(f(2i - 1) < 0\). Od razu
 	widać, że formuły zawierające jeden lub dwa literały są spełnione przy takim
-	wartościowaniu. Żeby formuła trzyelementowa, której odpowiada zbiór \(\{a,
+	wartościowaniu. Żeby formuła trójelementowa, której odpowiada zbiór \(\{a,
 	b, c\}\) była niespełniona, musiałoby zachodzić \(f(a), f(b), f(c) < 0\).
 	Skoro \(f(b) < 0\), to \(f(b \oplus 1) > 0\), czyli nie zachodzi żadna z
 	nierówności \(f(2m + 1) < f(a)\) i \(f(b \oplus 1) < f(c)\), co oznacza
 	sprzeczność, gdyż istnieje krotka w \(\mathcal{A}\), której funkcja \(f\)
 	nie spełnia.
+	
+	\medskip
+	
+	Wykazana równoważność kończy rozwiązanie zadania.
 \end{document}
