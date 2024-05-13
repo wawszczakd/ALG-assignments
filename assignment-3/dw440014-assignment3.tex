@@ -1,0 +1,163 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[a4paper, margin = 2 cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{wrapfig}
+\usepackage{hyperref}
+\usepackage{mathtools}
+
+\title{Algorytmika praca domowa 3}
+\author{Dominik Wawszczak}
+\date{2024-05-01}
+
+\begin{document}
+	\setlength{\parindent}{0 cm}
+	
+	Dominik Wawszczak \hfill Algorytmika
+	
+	numer indeksu: 440014 \hfill praca domowa 3
+	
+	numer grupy: 1
+	
+	\bigskip
+	\hrule
+	\bigskip
+	
+	\textbf{Zadanie 1}
+	
+	\medskip
+	
+	Rozpocznijmy od udowodnienia, że dany w zadaniu problem jest w klasie NP.
+	Istotnie, weryfikację czy konkretna funkcja \(f\) spełnia wszystkie krotki
+	z \(\mathcal{A}\) można zrealizować w czasie wielomianowym, zwyczajnie
+	sprawdzając dla każdej krotki czy spełniona jest co najmniej jedna z
+	odpowiednich nierówności.
+	
+	\medskip
+	
+	Pozostaje pokazać, że problem ten jest NP-trudny. W tym celu wskażemy
+	wielomianową redukcję problemu 3-CNF-SAT do problemu z treści zadania.
+	Weźmy więc dowolną instancję problemu 3-CNF-SAT. Niech \(m\) będzie liczbą
+	zmiennych w tej instancji. Przyjmijmy \(n = 2m + 1\). Zmienną \(x_{i}\)
+	będziemy utożsamiać z liczbą \(2i - 1\), a zaprzeczenie zmiennej \(\neg
+	x_{i}\) z liczbą \(2i\). Liczbę \(2m + 1\) będziemy traktować jako sztuczny
+	indykator tego czy zmienna jest prawdziwa, czy fałszywa. Konkretnie, jeśli
+	\(f(2i - 1) > f(2m + 1)\), to zmienna \(x_{i}\) jest prawdziwa, a jeśli
+	\(f(2i - 1) < f(2m + 1)\), to zmienna ta jest fałszywa.
+	
+	\medskip
+	
+	Rozpocznijmy z pustym zbiorem krotek \(\mathcal{A}\), do którego będziemy
+	dodawać kolejne krotki. Na początek dla każdej pary \((i, j) \in \{1,
+	\ldots, n\}^{2}\) takiej, że \(i < j\), wrzućmy krotkę \((i, j, j, i)\)
+	gwarantując tym samym, że jeśli istnieje odpowiednia funkcja \(f\), to jest
+	ona iniekcją.
+	
+	\medskip
+	
+	Kolejnem krokiem będzie zagwarantowanie, że dla każdego \(i \in \{1, \ldots,
+	m\}\) zachodzi dokładnie jeden z dwóch przypadków: \(f(2i) < f(2m + 1) <
+	f(2i - 1)\), czyli \(x_{i} = \top\), albo \(f(2i - 1) < f(2m + 1) < f(2i)\),
+	co oznacza, że \(x_{i} = \bot\). Niech \(a, b, c \in \{1, \ldots, n\}\) będą
+	parami różne. Zauważmy, że wrzucając do \(\mathcal{A}\) krotkę \((c, b, b,
+	a)\) sprawiamy, że nie może zachodzić \(f(a) < f(b) < f(c)\), przy czym na
+	każdym z pozostałych \(5\) możliwych posortowań \(f(a)\), \(f(b)\) i
+	\(f(c)\) krotka ta jest spełniona. Możemy w ten sposób ,,zabronić''
+	wszystkie kolejności  \(f(2i - 1)\), \(f(2i)\) oraz \(f(2m + 1)\), z
+	wyjątkiem dwóch wymienionych wyżej.
+	
+	\medskip
+	
+	Następnie zagwarantujemy, że jeśli dla pewnych \(a\), \(b\) zachodzi \(f(2m
+	+ 1) < f(a) < f(b)\) lub \(f(a) < f(b) < f(2m + 1)\), to \(a < b\). Dla
+	każdych \(a, b \in \{1, \ldots, 2m\}\) takich, że \(a < b\), możemy, tak jak
+	w poprzednim akapicie, zabronić kolejności \(f(2m + 1) < f(b) < f(a)\) oraz
+	\(f(b) < f(a) < f(2m + 1)\).
+	
+	\medskip
+	
+	Bez straty ogólności możemy założyć, że żadna klauzula nie zawiera
+	jednocześnie zmiennej i jej zaprzeczenia, gdyż takie klauzule są zawsze
+	spełnione. klauzulę z instancji problemu 3-CNF-SAT będziemy rozpatrywać jako
+	zbiór (powtórzenia możemy oczywiście zignorować) liczb odpowiadających
+	zawartym w niej literałom, zgodnie z numeracją opisaną w drugim akapicie.
+	Przykładowo, klauzulę \((x_{4} \vee \neg x_{6} \vee x_{9})\) będziemy
+	rozumieć jako multizbiór \(\{7, 12, 17\}\), a klauzulę \((\neg x_{2} \vee
+	x_{5} \vee \neg x_{2})\) jako \(\{4, 9\}\). Dla każdego zbioru
+	jednoelementowego \(\{a\}\) dodamy do \(\mathcal{A}\) krotkę \((2m + 1, a,
+	2m + 1, a)\). Dla każdego zbioru dwuelementowego \(\{a, b\}\) dodamy do
+	\(\mathcal{A}\) krotkę \((2m + 1, a, 2m + 1, b)\). Wreszcie dla każdego
+	zbioru trzyelementowego \(\{a, b, c\}\) dodamy do \(\mathcal{A}\) krotkę
+	\((2m + 1, a, b \oplus 1, c)\), zakładając bez straty ogólności \(a < b <
+	c\), gdzie \(\oplus\) jest operatorem bitowym xor.
+	
+	\medskip
+	
+	Pozostaje wykazać równoważność:
+	\begin{align*}
+		&\text{istnieje funkcja} \ f : \{1, \ldots, n\} \to \mathbb{Q} \
+		\text{spełniająca wszystkie krotki z} \ \mathcal{A} \quad \iff \\
+		&\text{formuła z instacji problemu 3-CNF-SAT jest spełnialna.}
+	\end{align*}\[ f(b \oplus 1) = \left\lfloor \frac{b + 1}{2} \right\rfloor - m - 1 <
+		\left\lfloor \frac{c + 1}{2} \right\rfloor - m - 1 = f(c) \text{,} \]
+	
+	\medskip
+	
+	Zaczniemy od wykazania implikacji ,,w lewo''. Weźmy więc wartościowanie
+	spełniające formułę i dla każdego \(i = 1, \ldots, m\) przypiszmy \(f(2i -
+	1) = i = f(2i) + m + 1\), jeżeli \(x_{i} = \top\), albo \(f(2i - 1) = i - m
+	- 1 = f(2i) - m - 1\), w przeciwny wypadku. \(f(2m + 1)\) zdefiniujemy jako
+	\(0\). Łatwo zauważyć, że funkcja \(f\) spełnia wszystkie krotki z akapitów
+	\(3\), \(4\) i \(5\). Dla klauzul, którym odpowiadają zbiory jedno lub
+	elementowe również nietrudno zauważyć, że funkcja \(f\) spełnia
+	odpowiadające im krotki. Pozostają klauzule, którym odpowiadają zbiory
+	trzyelementowe \(\{a, b, c\}\), gdzie mamy cztery przypadki:
+	\begin{enumerate}
+		\item \(f(a) > 0\)
+		
+		Wtedy oczywiście \(f(a) > 0 = f(2m + 1)\), czyli krotka jest spełniona.
+		
+		\item \(f(b) > 0 \wedge f(c) > 0\)
+		
+		Wówczas \(f(b \oplus 1) = f(b) - m - 1 < 0 < f(c)\), zatem krotka jest
+		spełniona.
+		
+		\item \(f(b) > 0 \wedge f(c) < 0\)
+		
+		W tym przypadku zachodzi
+		\[ f(b \oplus 1) \ = \ \left\lfloor \frac{b + 1}{2} \right\rfloor - m -
+		1 \ < \ \left\lfloor \frac{c + 1}{2} \right\rfloor - m - 1 \ = \ f(c)
+		\text{,} \]
+		toteż krotka także jest spełniona.
+		
+		\item \(f(b) < 0 \wedge f(c) > 0\)
+		
+		Mamy
+		\[ f(b \oplus 1) \ = \ \left\lfloor \frac{b + 1}{2} \right\rfloor \ < \
+		\left\lfloor \frac{c + 1}{2} \right\rfloor \ = \ f(c) \text{,} \]
+		więc krotka również jest spełniona.
+	\end{enumerate}
+	
+	\medskip
+	
+	Na koniec pozostaje wykazać implikację ,,w prawo''. Niech więc \(f\) będzie
+	funkcją spełniającą każdą klauzulę z \(\mathcal{A}\). Bez straty ogólności
+	możemy założyć, że \(f(2m + 1) = 0\), po prostu odejmując stałą \(f(2m +
+	1)\) od każdej wartościfunkcji, co nie wpłynie na żadną nierówność. Zgodnie
+	z tym co opisano w drugim akapicie, przyjmiemy \(x_{i} = \top\), jeśli
+	\(f(2i - 1) > 0\), albo \(x_{i} = \bot\), gdy \(f(2i - 1) < 0\). Od razu
+	widać, że formuły zawierające jeden lub dwa literały są spełnione przy takim
+	wartościowaniu. Żeby formuła trzyelementowa, której odpowiada zbiór \(\{a,
+	b, c\}\) była niespełniona, musiałoby zachodzić \(f(a), f(b), f(c) < 0\).
+	Skoro \(f(b) < 0\), to \(f(b \oplus 1) > 0\), czyli nie zachodzi żadna z
+	nierówności \(f(2m + 1) < f(a)\) i \(f(b \oplus 1) < f(c)\), co oznacza
+	sprzeczność, gdyż istnieje krotka w \(\mathcal{A}\), której funkcja \(f\)
+	nie spełnia.
+\end{document}
