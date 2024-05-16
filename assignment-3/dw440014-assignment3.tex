@@ -141,4 +141,37 @@
 	\medskip
 	
 	Wykazana równoważność kończy rozwiązanie zadania.
+	
+	\bigskip
+	
+	\textbf{Zadanie 2}
+	
+	\medskip
+	
+	Rozpocznijmy od napisania programu liniowego do problemu z treści zadania:
+	\begin{align*}
+		&\underset{u \in V(G)}{\forall} \ 0 \leqslant x_{u} \leqslant 1
+		\text{,} \\
+		&\underset{uv \in E(G)}{\forall} \ x_{u} + x_{v} \geqslant 1 \text{,} \\
+		&\underset{u \in V(G)}{\forall} \ x_{u} + \sum\limits_{uv \in E(G)}
+		x_{v} \leqslant y \text{,} \\
+		&\min\!: \ y \text{.}
+	\end{align*}
+	Weźmy rozwiązanie tego programu w liczbach rzeczywistych, które oczywiście
+	możemy uzyskać w czasie wielomianowym. Wówczas zachodzi \(y \leqslant
+	\text{OPT}(G)\), ponieważ biorąc rozwiązanie programu w liczbach całkowitych
+	otrzymamy optymalne rozwiązanie problemu. Niech
+	\[ X \ = \ \left\{ u \ : \ x_{u} \geqslant \frac{1}{2} \right\} \text{.} \]
+	Wówczas \(X\) jest pokryciem wierzchołkowym, ponieważ gdyby dla pewnej
+	krawędzi \(uv \in E(G)\) zachodziło \(x_{u} < \frac{1}{2}\) i \(x_{v} <
+	\frac{1}{2}\), to mielibyśmy \(x_{u} + x_{v} < 1\).
+	
+	\medskip
+	
+	Zauważmy, że
+	\[ \underset{u \in V(G)}{\forall} \ |X \cap N[u]| \ \leqslant \ 2 \cdot
+	\left( x_{u} + \sum\limits_{uv \in E(G)} x_{v} \right) \ \leqslant 2 \cdot y
+	\ \leqslant 2 \cdot \text{OPT}(G) \text{.} \]
+	Wynika stąd, że wskazany algorytm jest algorytmem 2-aproksymacyjnym tego
+	problemu, co kończy rozwiązanie pierwszej części zadania.
 \end{document}
