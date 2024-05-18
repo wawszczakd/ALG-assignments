@@ -142,7 +142,7 @@
 	
 	Wykazana równoważność kończy rozwiązanie zadania.
 	
-	\bigskip
+	\newpage
 	
 	\textbf{Zadanie 2}
 	
@@ -153,8 +153,8 @@
 		&\underset{u \in V(G)}{\forall} \ 0 \leqslant x_{u} \leqslant 1
 		\text{,} \\
 		&\underset{uv \in E(G)}{\forall} \ x_{u} + x_{v} \geqslant 1 \text{,} \\
-		&\underset{u \in V(G)}{\forall} \ x_{u} + \sum\limits_{uv \in E(G)}
-		x_{v} \leqslant y \text{,} \\
+		&\underset{u \in V(G)}{\forall} \ \sum\limits_{v \in N[u]} x_{v}
+		\leqslant y \text{,} \\
 		&\min\!: \ y \text{.}
 	\end{align*}
 	Weźmy rozwiązanie tego programu w liczbach rzeczywistych, które oczywiście
@@ -168,10 +168,54 @@
 	
 	\medskip
 	
-	Zauważmy, że
-	\[ \underset{u \in V(G)}{\forall} \ |X \cap N[u]| \ \leqslant \ 2 \cdot
-	\left( x_{u} + \sum\limits_{uv \in E(G)} x_{v} \right) \ \leqslant 2 \cdot y
-	\ \leqslant 2 \cdot \text{OPT}(G) \text{.} \]
+	Zauważmy, że dla każdego \(u \in V(G)\) spełnione jest
+	\begin{equation}
+		|X \cap N[u]| \ \leqslant \ 2 \cdot \sum\limits_{v \in N[u]} x_{v} \
+		\leqslant \ 2 \cdot y \ \leqslant \ 2 \cdot \text{OPT}(G) \text{.}
+		\tag{*} \label{eq:star}
+	\end{equation}
 	Wynika stąd, że wskazany algorytm jest algorytmem 2-aproksymacyjnym tego
 	problemu, co kończy rozwiązanie pierwszej części zadania.
+	
+	\medskip
+	
+	Żeby gęstość pokrycia wierzchołkowego znaleziona przez nasz algorytm
+	wyniosła więcej niż \(2 \cdot \text{OPT}(G) - 1\), musi istnieć wierzchołek
+	\(u \in V(G)\), dla którego w każdej nierówności ciągu nierówności
+	\ref{eq:star} zachodzi równość. W szczególności oznacza to, że dla pewnego
+	\(u \in V(G)\) w nierówności
+	\[ |X \cap N[u]| \ \leqslant \ 2 \cdot \sum\limits_{v \in N[u]} x_{v} \]
+	zachodzi równość.
+	
+	\medskip
+	
+	Nierówność ta bierze się z dodania stronami nierówności postaci \(1
+	\leqslant 2 x_{v}\), dla \(v \in X\), oraz \(0 \leqslant 2x_{v}\), dla
+	\(v \notin X\). We wszystkich tych nierównościach musi więc zachodzić
+	równość, zatem
+	\[ \underset{v \in N[u]}{\forall} \ x_{v} \in \left\{ 0, \frac{1}{2}
+	\right\} \text{.} \]
+	
+	\medskip
+	
+	Jeżeli dla pewnego \(v \in N[u] \setminus \{u\}\) byłoby \(x_{v} = 0\), to
+	mielibyśmy \(x_{u} + x_{v} \leqslant \frac{1}{2} < 1\), czyli sprzeczność,
+	toteż \(x_{v} = \frac{1}{2}\), dla każdego \(v \in N[u] \setminus \{u\}\).
+	
+	\medskip
+	
+	Jeśli \(x_{u} = 0\) oraz \(u\) nie jest wierzchołkiem izolowanym, to biorąc
+	dowolnego sąsiada \(v\) otrzymujemy \(x_{u} + x_{v} = \frac{1}{2} < 1\),
+	czyli również sprzeczność, z czego wynika, że \(x_{u} = \frac{1}{2}\). O
+	wierzchołkach izolowanych natomiast możemy założyć, że nie ma ich w naszym
+	pokryciu, ponieważ i tak są one zbędne.
+	
+	\medskip
+	
+	Z powyższego wynika, że jeżeli gęstość pokrycia wierzchołkowego jest większa
+	niż \(2 \cdot \text{OPT}(G) - 1\), to istnieje wierzchołek w tym pokryciu,
+	którego wszyscy sąsiedzi również w nim są. Możemy więc go zwyczajnie usunąć
+	z tego pokrycia i powtarzać tę procedurę tak długo, aż taki wierzchołek
+	istnieje. Na koniec zostaniemy z pokryciem o gęstości co najwyżej \(2 \cdot
+	\text{OPT}(G) - 1\), co kończy rozwiązanie zadanie.
 \end{document}
