@@ -56,7 +56,7 @@
 	
 	Rozpocznijmy z pustym zbiorem krotek \(\mathcal{A}\), do którego będziemy
 	dodawać kolejne krotki. Na początek dla każdej pary \((i, j) \in \{1,
-	\ldots, n\}^{2}\) takiej, że \(i < j\), wrzućmy krotkę \((i, j, j, i)\)
+	\ldots, n\}^{2}\) takiej, że \(i < j\), wrzućmy krotkę \((i, j, j, i)\),
 	gwarantując tym samym, że jeśli istnieje odpowiednia funkcja \(f\), to jest
 	ona iniekcją.
 	
@@ -70,7 +70,7 @@
 	a)\) sprawiamy, że nie może zachodzić \(f(a) < f(b) < f(c)\), przy czym na
 	każdym z pozostałych \(5\) możliwych posortowań \(f(a)\), \(f(b)\) i
 	\(f(c)\) krotka ta jest spełniona. Możemy w ten sposób ,,zabronić''
-	wszystkie kolejności  \(f(2i - 1)\), \(f(2i)\) oraz \(f(2m + 1)\), z
+	wszystkich kolejności  \(f(2i - 1)\), \(f(2i)\) oraz \(f(2m + 1)\), z
 	wyjątkiem dwóch wymienionych wyżej.
 	
 	\medskip
@@ -81,14 +81,14 @@
 	zbiór liczb odpowiadających zawartym w niej literałom (powtórzenia możemy
 	oczywiście zignorować), zgodnie z numeracją opisaną w drugim akapicie.
 	Przykładowo, klauzulę \((x_{4} \vee \neg x_{6} \vee x_{9})\) będziemy
-	rozumieć jako multizbiór \(\{7, 12, 17\}\), a klauzulę \((x_{5} \vee \neg
-	x_{2} \vee \neg x_{2})\) jako \(\{4, 9\}\). Dla każdego zbioru
-	jednoelementowego \(\{a\}\) dodamy do \(\mathcal{A}\) krotkę \((2m + 1, a,
-	2m + 1, a)\). Dla każdego zbioru dwuelementowego \(\{a, b\}\) dodamy do
-	\(\mathcal{A}\) krotkę \((2m + 1, a, 2m + 1, b)\). Wreszcie dla każdego
-	zbioru trójelementowego \(\{a, b, c\}\) dodamy do \(\mathcal{A}\) krotkę
-	\((2m + 1, a, b \oplus 1, c)\), zakładając bez straty ogólności \(a < b <
-	c\), gdzie \(\oplus\) jest operatorem bitowym xor.
+	rozumieć jako zbiór \(\{7, 12, 17\}\), a klauzulę \((x_{5} \vee \neg x_{2}
+	\vee \neg x_{2})\) jako \(\{4, 9\}\). Dla każdego zbioru jednoelementowego
+	\(\{a\}\) dodamy do \(\mathcal{A}\) krotkę \((2m + 1, a, 2m + 1, a)\). Dla
+	każdego zbioru dwuelementowego \(\{a, b\}\) dodamy do \(\mathcal{A}\) krotkę
+	\((2m + 1, a, 2m + 1, b)\). Wreszcie dla każdego zbioru trójelementowego
+	\(\{a, b, c\}\) dodamy do \(\mathcal{A}\) krotkę \((2m + 1, a, b \oplus 1,
+	c)\), zakładając bez straty ogólności \(a < b < c\), gdzie \(\oplus\) jest
+	operatorem bitowym xor.
 	
 	\medskip
 	
@@ -111,7 +111,8 @@
 	odpowiadające im krotki. Pozostają klauzule, którym odpowiadają zbiory
 	trójelementowe \(\{a, b, c\}\). Przypuśćmy nie wprost, że \(0 > f(a) \
 	\wedge \ f(b \oplus 1) > f(c)\). Skoro \(b < c\) i klauzula ta nie zawiera
-	jednocześnie zmiennej i jej zaprzeczenia, to \(b \oplus 1 < c\). Ponieważ
+	jednocześnie zmiennej i jej zaprzeczenia, to \(\left\lfloor \frac{b + 1}{2}
+	\right\rfloor < \left\lfloor \frac{c + 1}{2} \right\rfloor\). Ponieważ
 	\(f(a) < 0\), to odpowiadający jej literał jest fałszem, zatem \(f(b) > 0\)
 	lub \(f(c) > 0\). Jeżeli \(f(b) > 0\), mamy:
 	\[ f(b \oplus 1) \ = \ \left\lfloor \frac{b + 1}{2} \right\rfloor - m - 1 \
@@ -162,7 +163,7 @@
 	\text{OPT}(G)\), ponieważ biorąc rozwiązanie programu w liczbach całkowitych
 	otrzymamy optymalne rozwiązanie problemu. Niech
 	\[ X \ = \ \left\{ u \ : \ x_{u} \geqslant \frac{1}{2} \right\} \text{.} \]
-	Wówczas \(X\) jest pokryciem wierzchołkowym, ponieważ gdyby dla pewnej
+	Wtedy \(X\) jest pokryciem wierzchołkowym, ponieważ gdyby dla pewnej
 	krawędzi \(uv \in E(G)\) zachodziło \(x_{u} < \frac{1}{2}\) i \(x_{v} <
 	\frac{1}{2}\), to mielibyśmy \(x_{u} + x_{v} < 1\).
 	
@@ -190,8 +191,8 @@
 	\medskip
 	
 	Nierówność ta bierze się z dodania stronami nierówności postaci \(1
-	\leqslant 2 x_{v}\), dla \(v \in X\), oraz \(0 \leqslant 2x_{v}\), dla
-	\(v \notin X\). We wszystkich tych nierównościach musi więc zachodzić
+	\leqslant 2 x_{v}\), dla \(v \in X \cap N[u]\), oraz \(0 \leqslant 2x_{v}\),
+	dla \(v \in N[u] \setminus X\). We wszystkich tych nierównościach musi więc zachodzić
 	równość, zatem
 	\[ \underset{v \in N[u]}{\forall} \ x_{v} \in \left\{ 0, \frac{1}{2}
 	\right\} \text{.} \]
