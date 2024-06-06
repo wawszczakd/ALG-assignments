@@ -1,0 +1,79 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[a4paper, margin = 2 cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{wrapfig}
+\usepackage{hyperref}
+\usepackage{mathtools}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\title{Algorytmika praca domowa 4}
+\author{Dominik Wawszczak}
+\date{2024-06-06}
+
+\begin{document}
+	\setlength{\parindent}{0 cm}
+	
+	Dominik Wawszczak \hfill Algorytmika
+	
+	numer indeksu: 440014 \hfill praca domowa 4
+	
+	numer grupy: 1
+	
+	\bigskip
+	\hrule
+	\bigskip
+	
+	\textbf{Zadanie 1}
+	
+	\medskip
+	
+	Skoro w każdej klauzuli każda zmienna występuje w co najwyżej jednym
+	literale, to zbiór \(X\) jest zbiorem rozwiązującym wtedy i tylko wtedy, gdy
+	każda klauzula zawiera co najwyżej dwie zmienne niebędące w \(X\). Wynika z
+	tego, że jeśli \(X\) nie jest zbiorem rozwiązującym, to istnieje klauzula,
+	która zawiera przynajmniej \(3\) zmienne niebędące w \(X\). Obserwacja ta
+	prowadzi do następującego algorytmu:
+	
+	\begin{algorithm}
+		\caption{SolvingSet}
+		\begin{algorithmic}[1]
+			\Procedure{SolvingSet}{$k, X = \emptyset$}
+			    \If{every clause has at most two variables not in $X$}
+			        \State \Return true
+			    \EndIf
+			    \If{$k \leqslant 0$}
+			        \State \Return false
+			    \EndIf
+			    \State $(a, b, c) \gets$ three variables not in $X$ from one
+			    clause
+			    \State \Return \Call{SolvingSet}{$k - 1, X \cup \{a\}$}
+			    \textbf{or} \Call{SolvingSet}{$k - 1, X \cup \{b\}$} \textbf{or}
+			    \Statex \hspace{4.65em} \Call{SolvingSet}{$k - 1, X \cup \{c\}$}
+		\EndProcedure
+		\end{algorithmic}
+	\end{algorithm}
+	
+	Algorytm ten wykorzystuje fakt, że jeśli aktualny zbiór \(X\) jest
+	podzbiorem pewnego zbioru rozwiązującego, to przynajmniej jedna ze zmiennych
+	\(a\), \(b\) lub \(c\) musi być w tym zbiorze.
+	
+	\medskip
+	
+	W drzewie rekurencji tego algorytmu, na \(i\)-tym poziomie głębokości jest
+	co najwyżej \(3^{i}\) wierzchołków, dla \(i = 0, \ldots, k\). Łącznie
+	daje to maksymalnie \(\frac{3^{k + 1} - 1}{2}\) wywołań rekurencyjnych. W
+	każdym wywołaniu musimy jedynie znaleźć odpowiednią klauzulę i wybrać z niej
+	trzy literały, bądź stwierdzić, że taka klauzula nie istnieje, co oczywiście
+	da się zrobić w czasie \(|\varphi|^{O(1)}\). Ostateczna złożoność czasowa
+	naszego algorytmu wynosi zatem \(3^{k} \cdot |\varphi|^{O(1)}\), co kończy
+	rozwiązanie pierwszej części zadania.
+\end{document}
