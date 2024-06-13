@@ -76,4 +76,41 @@
 	da się zrobić w czasie \(|\varphi|^{O(1)}\). Ostateczna złożoność czasowa
 	naszego algorytmu wynosi zatem \(3^{k} \cdot |\varphi|^{O(1)}\), co kończy
 	rozwiązanie pierwszej części zadania.
+	
+	\medskip
+	
+	Przejdźmy teraz do rozwiązania drugiej części zadania. Bez straty ogólności
+	możemy założyć, że dekompozycja drzewowa jest ładna. Skorzystamy z
+	programowania dynamicznego. Niech \(v\) będzie dowolnym wierzchołkiem
+	dekompozycji drzewowej. Dla każdej pary funkcji \(f : \text{zmienne}(v) \to
+	\{0, 1\}\) oraz \(g : \text{klauzule}(v) \to \{0, 1, 2\}\) definiujemy
+	\begin{align*}
+		\text{dp}(v, f, g) \ = \ \min \bigg\{ &|X| \ : \ X \cap
+		\text{zmienne}(v) = f^{-1}(1) \ \wedge \ \underset{l \in
+		\text{klauzule}(v)}{\forall} |l	\setminus X| = g(l) \ \wedge \\
+		&\underset{l \in \text{klauzule}(T_{v})}{\forall} |l \setminus X|
+		\leqslant 2 \bigg\} \text{,}
+	\end{align*}
+	gdzie \(T_{v}\) jest poddrzewem wierzchołka \(v\), a klauzule traktujemy
+	jako zbiory zmiennych, które zawierają.
+	
+	\medskip
+	
+	Tak zdefiniowaną tablicę można łatwo wypełnić, rozważając \(5\) przypadków
+	(dodanie/usunięcie zmiennej/klauzuli oraz wierzchołek łączący dwóch synów).
+	Na koniec wystarczy odczytać wartość z \(\text{dp}(\text{root}, \emptyset,
+	\emptyset)\) i jeśli jest ona nie większa niż \(k\), to odpowiedzią jest
+	,,Tak''. W przeciwnym wypadku odpowiedzią jest ,,Nie''.
+	
+	\medskip
+	
+	Całkowita złożoność naszego algorytmu to \(3^{t} \cdot |\varphi|^{O(1)}\),
+	co kończy rozwiązanie zadania.
+	
+	\newpage
+	
+	\textbf{Zadanie 2}
+	
+	\medskip
+	
 \end{document}
