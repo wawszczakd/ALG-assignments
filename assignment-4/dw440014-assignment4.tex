@@ -69,13 +69,13 @@
 	\medskip
 	
 	W drzewie rekurencji tego algorytmu, na \(i\)-tym poziomie głębokości jest
-	co najwyżej \(3^{i}\) wierzchołków, dla \(i = 0, \ldots, k\). Łącznie
-	daje to maksymalnie \(\frac{3^{k + 1} - 1}{2}\) wywołań rekurencyjnych. W
-	każdym wywołaniu musimy jedynie znaleźć odpowiednią klauzulę i wybrać z niej
-	trzy zmienne, bądź stwierdzić, że taka klauzula nie istnieje, co oczywiście
-	da się zrobić w czasie \(|\varphi|^{O(1)}\). Ostateczna złożoność czasowa
-	naszego algorytmu wynosi zatem \(3^{k} \cdot |\varphi|^{O(1)}\), co kończy
-	rozwiązanie pierwszej części zadania.
+	co najwyżej \(3^{i}\) wierzchołków, dla \(i = 0, \ldots, k\). Łącznie daje
+	to maksymalnie \(\frac{3^{k + 1} - 1}{2}\) wywołań rekurencyjnych. W każdym
+	wywołaniu musimy jedynie znaleźć odpowiednią klauzulę i wybrać z niej trzy
+	zmienne, bądź stwierdzić, że taka klauzula nie istnieje, co oczywiście da
+	się zrobić w czasie \(|\varphi|^{O(1)}\). Ostateczna złożoność czasowa
+	naszego algorytmu wynosi zatem \(O\big(3^{k}\big) \cdot |\varphi|^{O(1)}\),
+	co kończy rozwiązanie pierwszej części zadania.
 	
 	\medskip
 	
@@ -104,8 +104,8 @@
 	
 	\medskip
 	
-	Całkowita złożoność naszego algorytmu to \(3^{t} \cdot |\varphi|^{O(1)}\),
-	co kończy rozwiązanie zadania.
+	Całkowita złożoność naszego algorytmu to \(O(3^{t}) \cdot
+	|\varphi|^{O(1)}\), co kończy rozwiązanie zadania.
 	
 	\newpage
 	
@@ -113,4 +113,59 @@
 	
 	\medskip
 	
+	Niech \(\tilde{A}\) będzie zbiorem słów z \(A\) (bez powtórzeń). Oznaczmy
+	przez \(n = |\tilde{A}|\) liczbę różnych słów tego zbioru.
+	
+	\medskip
+	
+	Zauważmy, że jeśli \(k < n - r\), to odpowiedzią z pewnością jest ,,Nie''.
+	Przypuśćmy nie wprost, że istnieje zbiór \(A' \subseteq \tilde{A}\)
+	spełniający
+	\[ \sum\limits_{b \in A} \min_{a \in A'} \text{dist}_{\text{Hamming}} (a, b)
+	\ \leqslant \ k \text{.} \]
+	Wówczas istnieje co najmniej \(k + 1\) słów z \(\tilde{A}\) niebędących w
+	\(A'\), a każde takie słowo ,,dodaje'' przynajmniej \(1\) do powyższej sumy,
+	czyli sprzeczność. W dalszej części rozwiązania zakładamy więc, że \(k
+	\geqslant n - r\).
+	
+	\medskip
+	
+	Jeżeli \(A' \subseteq \tilde{A}\) jest rozwiązaniem, to bez straty ogólności
+	możemy założyć, że \(|A'| = r\) (chyba, że \(r > n\), ale wtedy problem jest
+	trywialny). Wtedy \(|\tilde{A} \setminus A'| = n - r \leqslant k\). Przez
+	\textit{reprezentanta} słowa \(b \in \tilde{A}\) będziemy rozumieć takie
+	słowo \(a \in A'\), że \(\text{dist}_{\text{Hamming}} (a, b)\) jest
+	najmniejszy możliwy. Oczywiście, każde słowo \(a \in A'\) jest samo swoim
+	reprezentantem. Niech \(X_{A'} = \tilde{A} \setminus A'\) oraz niech
+	\(Y_{A'}\) będzie zbiorem słów z \(A'\), które są reprezentantami więcej niż
+	jednego słowa. Zachodzi wówczas \(|X_{A'}|, |Y_{A'}| \leqslant k\).
+	
+	\medskip
+	
+	Niech funkcja \(f : \tilde{A} \to \{0, 1\}\) będzie losowa. Zauważmy, że
+	jeśli \(A' \subseteq \tilde{A}\) jest pewnym rozwiązaniem, to spełnione jest
+	\[ \Pr \left( X_{A'} \subseteq f^{-1}(0) \ \wedge \ Y_{A'} \subseteq
+	f^{-1}(1) \right) \ \geqslant \ \frac{1}{2^{2k}} \text{,} \]
+	ponieważ zbiory te są rozłączne, a ich sumaryczny rozmiar nie przekracza
+	\(2k\). Możemy więc dla każdego słowa \(b \in f^{-1}(0)\) obliczyć jego
+	koszt
+	\[ \text{cost}_{f} (b) \ = \ \#_{A}(b) \cdot \min_{a \in f^{-1}(1)}
+	\text{dist}_{\text{Hamming}} (a, b) \text{,} \]
+	po czym zachłannie wybrać \(n - r\) słów o najmniejszym koszcie i wziąć
+	\(A'\) jako zbiór niewybranych słów, pod warunkiem, że suma kosztów
+	wybranych słów nie przekracza \(k\).
+	
+	\medskip
+	
+	Jeżeli procedurę tę powtórzymy \(2^{2k} \cdot 1000\) razy, to
+	prawdopodobieństwo sukcesu wyniesie co najmniej
+	\[ \left( 1 - \frac{1}{2^{2k}} \right) ^ {2^{2k} \cdot 1000} \ \leqslant \
+	e^{-1000} \text{,} \]
+	czyli rozsądnie mało.
+	
+	\medskip
+	
+	Łączna złożoność naszego algorytmu to \(2^{2k} \cdot 1000 \cdot (|\Sigma| +
+	|A| + m) ^ {O(1)} \leqslant 2^{O(k \log k)} \cdot (|\Sigma| + |A| + m) ^
+	{O(1)}\), co kończy rozwiązanie zadania.
 \end{document}
