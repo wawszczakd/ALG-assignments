@@ -39,7 +39,7 @@
 	Skoro w każdej klauzuli każda zmienna występuje w co najwyżej jednym
 	literale, to zbiór \(X\) jest zbiorem rozwiązującym wtedy i tylko wtedy, gdy
 	każda klauzula zawiera co najwyżej dwie zmienne niebędące w \(X\). Wynika z
-	tego, że jeśli \(X\) nie jest zbiorem rozwiązującym, to istnieje klauzula,
+	tego, że jeżeli \(X\) nie jest zbiorem rozwiązującym, to istnieje klauzula,
 	która zawiera przynajmniej \(3\) zmienne niebędące w \(X\). Obserwacja ta
 	prowadzi do następującego algorytmu:
 	
@@ -57,8 +57,9 @@
 			    clause
 			    \State \Return \Call{SolvingSet}{$k - 1, X \cup \{a\}$}
 			    \textbf{or} \Call{SolvingSet}{$k - 1, X \cup \{b\}$} \textbf{or}
-			    \Statex \hspace{4.685em} \Call{SolvingSet}{$k - 1, X \cup \{c\}$}
-		\EndProcedure
+			    \Statex \hspace{4.685em} \Call{SolvingSet}
+			                                  {$k - 1, X \cup \{c\}$}
+			\EndProcedure
 		\end{algorithmic}
 	\end{algorithm}
 	
@@ -99,7 +100,7 @@
 	Tak zdefiniowaną tablicę można łatwo wypełnić, rozważając \(5\) przypadków
 	(dodanie/usunięcie zmiennej/klauzuli oraz wierzchołek łączący dwóch synów).
 	Na koniec wystarczy odczytać wartość z \(\text{dp}(\text{root}, \emptyset,
-	\emptyset)\) i jeśli jest ona nie większa niż \(k\), to odpowiedzią jest
+	\emptyset)\) i jeżeli jest ona nie większa niż \(k\), to odpowiedzią jest
 	,,Tak''. W przeciwnym wypadku odpowiedzią jest ,,Nie''.
 	
 	\medskip
@@ -135,10 +136,12 @@
 	trywialny). Wtedy \(|\tilde{A} \setminus A'| = n - r \leqslant k\). Przez
 	\textit{reprezentanta} słowa \(b \in \tilde{A}\) będziemy rozumieć takie
 	słowo \(a \in A'\), że \(\text{dist}_{\text{Hamming}} (a, b)\) jest
-	najmniejszy możliwy. Oczywiście, każde słowo \(a \in A'\) jest samo swoim
-	reprezentantem. Niech \(X_{A'} = \tilde{A} \setminus A'\) oraz niech
-	\(Y_{A'}\) będzie zbiorem słów z \(A'\), które są reprezentantami więcej niż
-	jednego słowa. Zachodzi wówczas \(|X_{A'}|, |Y_{A'}| \leqslant k\).
+	najmniejszy możliwy. W przypadku gdy więcej niż jedno słowo minimalizuje tę
+	wartość, reprezentantem jest najmniejsze leksykograficznie z nich.
+	Oczywiście, każde słowo \(a \in A'\) samo jest swoim reprezentantem. Niech
+	\(X_{A'} = \tilde{A} \setminus A'\) oraz niech \(Y_{A'}\) będzie zbiorem
+	słów z \(A'\), które są reprezentantami więcej niż jednego słowa. Zachodzi
+	wówczas \(|X_{A'}|, |Y_{A'}| \leqslant k\).
 	
 	\medskip
 	
@@ -158,10 +161,12 @@
 	\medskip
 	
 	Jeżeli procedurę tę powtórzymy \(2^{2k} \cdot 1000\) razy, to
-	prawdopodobieństwo sukcesu wyniesie co najmniej
+	prawdopodobieństwo nieznalezienia rozwiązania pomimo tego, że ono istnieje,
+	wyniesie co najwyżej
 	\[ \left( 1 - \frac{1}{2^{2k}} \right) ^ {2^{2k} \cdot 1000} \ \leqslant \
 	e^{-1000} \text{,} \]
-	czyli rozsądnie mało.
+	czyli rozsądnie mało. Oczywiście, prawdopodobieństwo to może być dowolnie
+	małe, jeśli zamieni się \(1000\) na odpowiednią stałą.
 	
 	\medskip
 	
