@@ -1,7 +1,7 @@
 # ALG Assignments
 
 This repository contains my solutions to assignments from the course
-"Algorithmics."
+"Algorithmics".
 
 ## Overview
 
